@@ -1,34 +1,46 @@
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-function Home() {
-  return <h2>Welcome to Home Page</h2>;
-}
-
-function About() {
-  return <h2>This is About Page</h2>;
-}
-
-function Contact() {
-  return <h2>Contact Us: contact@example.com</h2>;
-}
+import { useRef, useState } from "react";
 
 export default function App() {
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const [submittedUser, setSubmittedUser] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const username = usernameRef.current.value;
+
+    setSubmittedUser(username);
+  }
+
   return (
-    <BrowserRouter>
-      <h1>React Router Navigation</h1>
+    <div>
+      <h1>Login Form</h1>
 
-      <nav>
-        <Link to="/">Home</Link>{" | "}
-        <Link to="/about">About</Link>{" | "}
-        <Link to="/contact">Contact</Link>
-      </nav>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter Username"
+          ref={usernameRef}
+          required
+        />
+        <br /><br />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </BrowserRouter>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          ref={passwordRef}
+          required
+        />
+        <br /><br />
+
+        <button type="submit">Login</button>
+      </form>
+
+      {submittedUser && (
+        <h3>Form submitted successfully for: {submittedUser}</h3>
+      )}
+    </div>
   );
 }
